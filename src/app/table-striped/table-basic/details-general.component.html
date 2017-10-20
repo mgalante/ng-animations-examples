@@ -1,0 +1,52 @@
+
+
+<ng-container *ngIf="row?.details.listDetail?.length > 0"><!-- if exist -->
+
+<div class="details" *ngFor="let listSet of row?.details.listDetail">
+	<h3 class="details__title">{{listSet?.listTitle}} </h3><!-- main title -->
+	<ul class="details__list row">
+		<li class="details__list__listitem col-sm-3 col-md-2 " *ngFor="let listItem of listSet.listData" >
+			<p class="details__subTitle" >{{listItem?.title}}</p><!-- Sub title -->
+
+			<!-- with tooltip ********************************************************************************* -->
+			<ng-container *ngIf="listItem?.tooltip">
+        <p class="details__content" *ngIf="!listItem?.action || listItem?.action === null " ><!-- string / tooltip -->
+            <span popover="{{listItem?.tooltip}}" [popoverOnHover]="true" [popoverDisabled]="row.disable" >
+              {{listItem?.title}} <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            </span>
+        </p>
+        
+        <p class="details__content" *ngIf="listItem?.action && listItem?.action != null " ><!--  action / tooltip -->
+          <ng-container *ngIf="!row.disable"><!-- if active -->
+          <a  popover="{{listItem?.tooltip}}" [popoverOnHover]="true" [popoverDisabled]="row.disable" >
+            {{listItem?.title}} <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          </a>
+          </ng-container>
+         <ng-container *ngIf="row.disable"> <!-- if disable -->
+            <span class="details__content a-disabled" *ngIf="listItem?.action != null">
+              {{listItem?.title}} <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            </span>	
+          </ng-container>
+        </p>
+      </ng-container>
+
+			<!-- without tooltip ********************************************************************************* -->
+			<ng-container *ngIf="!listItem?.tooltip">
+				<p class="details__content" *ngIf="!listItem?.action || listItem?.action === null "><!-- string -->
+					<span>{{listItem?.title}}</span>
+				</p>
+				<a class="details__content" *ngIf="listItem?.action != null && !row.disable"><!-- action -->
+					<span>{{listItem?.title}}</span>
+				</a>
+				<p class="details__content a-disabled" *ngIf="listItem?.action != null && row.disable"><!-- disable action -->
+          {{listItem?.title}}
+        </p>	
+      </ng-container>
+      <!-- *** -->
+
+		</li>
+	</ul>
+
+</div>
+
+</ng-container> 

@@ -1,0 +1,389 @@
+<div class="table-modular-summary" *ngIf="hasSummary">
+	<div class="table-modular-summary__checkbox-space" *ngIf="hasCheckbox"></div>
+	<div class="table-modular-summary__item">liberar <span>{{getTotalItems()}}</span></div>
+	<div class="table-modular-summary__total">Total <span>{{getTotalValue() | number : '1.2-2'}}</span></div>
+</div>
+
+<div class="table-modular-summary__topHead-line" *ngIf="hasSummary && hasThead"></div>
+
+<table class="table-modular">
+	<!--Table header ************************************************************************************* -->
+	<thead class="hidden-xs" *ngIf="hasThead">
+		<tr class="row-thead">
+			<!--//////////Static columns *********-->
+			<th class="column column--checkbox column--thead" *ngIf="hasCheckbox">
+				<!--//column: checkbox-->
+				<div class="checkbox">
+					<input id="checkboxAll" class="styled" name="selectAll" type="checkbox" [checked]="checkAll" (change)="rowCheckAll(index)">
+					<label for="checkboxAll"></label>
+				</div>
+			</th>
+			<!--//////////Columns: sort by & title ********-->
+			<ng-container *ngFor="let thHead of tModHead; let index=index ">
+				<th class="column column--thead column--{{thHead?.attribute}} column--{{thHead?.attribute.value}}">
+					<!--//sortBy BTN & Title-->
+					<button class="btn-order-arrows" (click)="sortBy(index)" *ngIf="thHead?.sortBtnDisplay && !hasAddressbookMode">
+					{{thHead?.title}}<i class="fa {{sortByDisplayIcon(index)}}"></i>
+					</button>
+					<!--//Only title-->
+					<span *ngIf="!thHead?.sortBtnDisplay || hasAddressbookMode">{{thHead?.title}}</span>
+				</th>
+			</ng-container>
+			<ng-container *ngIf="tModConfig.rowViewActions || tModConfig.rowEditActions">
+				<!--//column: buttons-->
+				<th width="{{actionsWidth}}" class="column column--actions column--thead"></th>
+			</ng-container>
+		</tr>
+	</thead>
+
+
+
+	<!--Table Body **************************************************************************************** -->
+	<tbody>
+		<ng-container *ngFor="let row of tModBody; let index=index; ">
+			<!--//Row Addressbook Mode *************************************************************************** -->
+			<ng-container *ngIf="hasAddressbookMode">
+				<tr *ngIf="row.capital =='show' ">
+					<td attr.colspan="{{colspan()}}" class="column-Addressbook"> <span class="addressbook-capital">{{row.capitalLeter}}</span></td>
+				</tr>
+			</ng-container>
+			<!--//Row content ************************************************************************************ -->
+			<tr id="idRowView-{{index}}" class="row-columns" [ngClass]="{	
+				'row-editable-custom': 	hasCustomEditable && row.state =='edit',
+				'row-editable': 		!hasCustomEditable && row.state =='edit',
+				'row-view': 			tableMode == 'view' && row.state =='view',
+				'row--disabled': row.disable,
+				'row--select': 	 row.checked, 
+				'row--success':  row.rowFeedback === 'success', 
+				'row--danger': 	 row.rowFeedback === 'danger' , 
+				'row--warning':  row.rowFeedback === 'warning',
+				'row--info': 	   row.rowFeedback === 'info'
+				}" >
+				<td class="column column--checkbox" *ngIf="hasCheckbox">
+					<!--//column: checkbox-->
+					<div class="checkbox">
+						<input id="idCheck-{{index}}" type="checkbox" name="select" [checked]="row.checked" (change)="rowCheck(index)">
+						<label for="idCheck-{{index}}"></label>
+					</div>
+				</td>
+				<!--//columns View ************************************************************************************ -->
+				<ng-container *ngIf="row.state == 'view' ">
+					<!--//////////Columns Data ********-->
+					<ng-container *ngFor="let item of tModHead">
+						<ng-container [ngSwitch]="item.dataType">
+
+							<ng-container *ngSwitchCase="1">
+								<!--//column: Currency & Value-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<span class="currency">{{row?.rowData[item.attribute.currency]}}</span>
+									<span class="value">{{row?.rowData[item.attribute.value] | number : '1.2-2'}}</span>
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="2">
+								<!--//column: dropdown-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}} ">
+									<div *ngIf="item.attribute.config.displayInView">
+										{{item.attribute.config.list[row?.rowData[item.attribute.value]].text}}
+									</div>
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="4">
+								<!--//column: datepicker-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<div *ngIf="item.attribute.config.displayInView"></div>
+									{{row?.rowData[item.attribute.value] | date:'dd MMM y'}}
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="5">
+								<!--//column: checkbox-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<div *ngIf="item.attribute.config.displayInView">
+										<div *ngIf="row?.rowData[item.attribute.value]" class="check-view"><i class="fa fa-check"></i></div>
+									</div>
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="6">
+								<!--//column: radio button-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<div *ngIf="item.attribute.config.displayInView">
+										<div *ngIf="row?.rowData[item.attribute.value]" class="check-view"><i class="fa fa-check"></i></div>
+									</div>
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="3">
+								<!--//column: input text-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<div *ngIf="item.attribute.config.displayInView">
+										{{row?.rowData[item.attribute.value]}}</div>
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="7">
+								<!--//column: input number-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<div *ngIf="item.attribute.config.displayInView">
+										{{row?.rowData[item.attribute.value]}}</div>
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="8">
+								<!--//column: input mail-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<div *ngIf="item.attribute.config.displayInView">
+										{{row?.rowData[item.attribute.value]}}</div>
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchDefault>
+								<!--//column: Default (string)-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute}}">
+									{{row?.rowData[item.attribute.value]}}
+								</td>
+							</ng-container>
+						</ng-container>
+					</ng-container>
+
+					<!--//////////Column buttons ******-->
+					<ng-container *ngIf="tModConfig.rowViewActions">
+						<td class="column column--actions">
+							<table class="table-buttons"><tr>	
+								<td  *ngFor="let button of tModConfig.rowViewActions">
+
+								<ng-container *ngIf="button.type ==='button' ">
+									<!--//column: button-->
+									<button class="btn btn-table-action" (click)="rowBtnAction(index,row,button.action)" [disabled]="row.disable">	
+											<span title="{{button.tooltip}}" >
+											{{button.title}}
+											</span>
+										</button>
+								</ng-container>
+								<ng-container *ngIf="button.type ==='icon' ">
+									<!--//column: Icon-->
+									<button class="btn btn-ico" (click)="rowBtnAction(index,row,button.action)" [disabled]="row.disable">	
+											<i class="{{button.icon}}" title="{{button.tooltip}}" ></i>
+										</button>
+								</ng-container>
+								<ng-container *ngIf="button.type ==='contextMenu' ">
+									<!--//column: Contextual menu-->
+									<div class="dropdown row-menu">
+										<button class="btn btn-contexmenu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="row.disable">
+												<span class="icon-sub-menu"></span>
+											</button>
+										<ul class="dropdown-menu">
+											<li *ngFor="let cmItem of button.cmItems"><a (click)="rowBtnAction(index,row,cmItem.action)">{{cmItem.title}}</a></li>
+										</ul>
+									</div>
+								</ng-container>
+							</td>
+							</tr></table>
+						</td>
+					</ng-container>
+					<!-- end buttons-->
+				</ng-container>
+				<!--//Row Editable ******************************************************************************** -->
+				<ng-container *ngIf="!hasCustomEditable && row.state =='editable' ">
+					<!--//////////Columns Data ********-->
+					<ng-container *ngFor="let item of tModHead">
+						<ng-container [ngSwitch]="item.dataType">
+
+							<ng-container *ngSwitchCase="1">
+								<!--//column: Currency & Value-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<span class="currency">{{row?.rowData[item.attribute.currency]}}</span>
+									<span class="value">{{row?.rowData[item.attribute.value] | number : '1.2-2'}}</span>
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="2">
+								<!--//column: dropdown-->
+								<td attr.data-th="{{item?.title}}" class="column column--input column--{{item?.attribute.value}}">
+									<div class="form-group" *ngIf="item.attribute.config.displayInEdit">
+										<div class="select-custom">
+											<!-- <ng-select [allowClear]="false" [items]="row?.rowData[item.attribute.items]" [active]="[item.attribute.config.list[row?.rowData[item.attribute.value]]]"
+											 [disabled]="item.attribute.config.disable || row.disable" (data)="refreshValue($event)" (selected)="selected($event)"
+											 (removed)="removed($event)" (typed)="typed($event)" placeholder="{{item.attribute.config.placeholder}}">
+											</ng-select>
+											<span class="icon-down"></span> -->
+										</div>
+										<span class="help-block"></span>
+									</div>
+									<!-- /form-group -->
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="4">
+								<!--//column: datepicker-->
+								<td attr.data-th="{{item?.title}}" class="column column--input column--{{item?.attribute.value}}">
+									<div class="form-group" *ngIf="item.attribute.config.displayInEdit">
+										<!-- <datetime [timepicker]="item.attribute.config.time" [datepicker]="item.attribute.config.pluginConfig" [readonly]="item.attribute.config.readonly || row.disable"
+										 [(ngModel)]="row?.rowData[item.attribute.value]">
+										</datetime>
+										<span class="icon-diary"></span> -->
+										<span id="{{'help-' + item.attribute.value + index}}" class="help-block"></span>
+									</div>
+									<!-- /form-group -->
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="5">
+								<!--//column: checkbox-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<div class="form-group" *ngIf="item.attribute.config.displayInEdit">
+										<div class="checkbox checkbox-inline custom-checkbox">
+											<input type="checkbox" [name]="item.attribute.value + index" [id]="item.attribute.value + index" [checked]="row?.rowData[item.attribute.value]"
+											 [disabled]="item.attribute.config.disable || row.disable" [required]="item.attribute.config.required" attr.aria-describedby="{{'help-' + item.attribute.value + index}}">
+											<label [for]="item.attribute.value + index"><span class="sr-only">{{item?.title}}</span></label>
+										</div>
+										<span id="{{'help-' + item.attribute.value + index}}" class="help-block"></span>
+									</div>
+									<!-- /form-group -->
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="6">
+								<!--//column: radio button-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.value}}">
+									<div class="form-group" *ngIf="item.attribute.config.displayInEdit">
+										<div class="radio radio-inline custom-checkbox">
+											<input type="radio" [name]="item.attribute.value" [id]="item.attribute.value + index" [checked]="row?.rowData[item.attribute.value]"
+											 [disabled]="item.attribute.config.disable || row.disable" [required]="item.attribute.config.required" attr.aria-describedby="{{'help-' + item.attribute.value + index}}">
+											<label [for]="item.attribute.value + index"><span class="sr-only">{{item?.title}}</span></label>
+										</div>
+										<span id="{{'help-' + item.attribute.value + index}}" class="help-block"></span>
+									</div>
+									<!-- /form-group -->
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="3">
+								<!--//column: input text-->
+								<td attr.data-th="{{item?.title}}" class="column column--input column--{{item?.attribute.value}}">
+									<div class="form-group" *ngIf="item.attribute.config.displayInEdit">
+										<label [for]="item.attribute.value + index" class="sr-only">{{item?.title}}</label>
+										<input class="form-control" type="text" [name]="item.attribute.value + index" [value]="row?.rowData[item.attribute.value]"
+										 [placeholder]="item.attribute.config.placeholder" [disabled]="item.attribute.config.disable || row.disable" [required]="item.attribute.config.required"
+										 attr.aria-describedby="{{'help-' + item.attribute.value + index}}">
+										<span id="{{'help-' + item.attribute.value + index}}" class="help-block"></span>
+									</div>
+									<!-- /form-group -->
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="7">
+								<!--//column: input number-->
+								<td attr.data-th="{{item?.title}}" class="column column--input column--{{item?.attribute.value}}">
+									<div class="form-group" *ngIf="item.attribute.config.displayInEdit">
+										<label [for]="item.attribute.value + index" class="sr-only">{{item?.title}}</label>
+										<input class="form-control" type="number" [name]="item.attribute.value + index" [value]="row?.rowData[item.attribute.value]"
+										 [placeholder]="item.attribute.config.placeholder" [disabled]="item.attribute.config.disable || row.disable" [required]="item.attribute.config.required"
+										 attr.aria-describedby="{{'help-' + item.attribute.value + index}}">
+										<span id="{{'help-' + item.attribute.value + index}}" class="help-block"></span>
+									</div>
+									<!-- /form-group -->
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchCase="8">
+								<!--//column: input mail-->
+								<td attr.data-th="{{item?.title}}" class="column column--input column--{{item?.attribute.value}}">
+									<div class="form-group" *ngIf="item.attribute.config.displayInEdit">
+										<label [for]="item.attribute.value + index" class="sr-only">{{item?.title}}</label>
+										<input class="form-control" type="mail" [name]="item.attribute.value + index" [value]="row?.rowData[item.attribute.value]"
+										 [placeholder]="item.attribute.config.placeholder" [disabled]="item.attribute.config.disable || row.disable" [required]="item.attribute.config.required"
+										 attr.aria-describedby="{{'help-' + item.attribute.value + index}}">
+										<span id="{{'help-' + item.attribute.value + index}}" class="help-block"></span>
+									</div>
+									<!-- /form-group -->
+								</td>
+							</ng-container>
+							<ng-container *ngSwitchDefault>
+								<!--//column: Default (string)-->
+								<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute}}">
+									{{row?.rowData[item.attribute.value]}}
+								</td>
+							</ng-container>
+						</ng-container>
+					</ng-container>
+
+					<!--//////////Column buttons ******-->
+					<ng-container *ngIf="tModConfig.rowEditActions">
+						<td class="column column--actions">
+							<table class="table-buttons"><tr>	
+							<td *ngFor="let button of tModConfig.rowEditActions">
+								<!-- <pre>{{button | json}}</pre> -->
+								<ng-container *ngIf="button.type ==='button' ">
+									<!--//column: button-->
+									<button class="btn btn-table-action" (click)="rowBtnAction(index,row,button.action)" [disabled]="row.disable">	
+										<span title="{{button.tooltip}}" >
+											{{button.title}}
+										</span>
+									</button>
+								</ng-container>
+								<ng-container *ngIf="button.type ==='icon' ">
+									<!--//column: Icon-->
+									<button class="btn btn-ico" (click)="rowBtnAction(index,row,button.action)" [disabled]="row.disable">	
+										<i class="{{button.icon}}" title="{{button.tooltip}}" ></i>
+									</button>
+								</ng-container>
+								<ng-container *ngIf="button.type ==='contextMenu' ">
+									<!--//column: Contextual menu-->
+									<div class="dropdown row-menu">
+										<button class="btn btn-contexmenu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="row.disable">
+												<span class="icon-sub-menu"></span>
+											</button>
+										<ul class="dropdown-menu">
+											<li *ngFor="let cmItem of button.cmItems"><a (click)="rowBtnAction(index,row,cmItem.action)">{{cmItem.title}}</a></li>
+										</ul>
+									</div>
+								</ng-container>
+
+							</td>
+							</tr></table>
+						</td>
+					</ng-container>
+					<!-- end buttons-->
+				</ng-container>
+				<!--//Row Editable Custom ************************************************************************* -->
+				<ng-container *ngIf="hasCustomEditable && row.state =='editable' ">
+					<td attr.colspan="{{colspan()}}" >
+						<div id="idRowEditable-{{index}}" class="row-editable" (click)="rowBtnAction(index, row, 'aceptEdit')">
+							<div class="row-edit-btns">
+								<button class="btn btn-ico" (click)="rowBtnAction(index,row,'aceptCustomEdit')">	
+									<span class="glyphicon glyphicon-ok" title="Aceptar" ></span>
+								</button>
+								<button class="btn btn-ico" (click)="rowBtnAction(index,row,'cancelCustomEdit')">	
+									<span class="glyphicon glyphicon-remove" title="Cancelar" ></span>
+								</button>
+							</div>
+							<ng-content select="[customEditRowContent]"></ng-content>
+						</div>
+					</td>
+				</ng-container>
+			</tr>
+
+			<!--//Row white space ***************************************************************************** -->
+			<tr class="row-blank">
+				<td attr.colspan="{{colspan()}}"></td>
+			</tr>
+
+		</ng-container>
+		<!--/end Row Loop-->
+	</tbody>
+</table>
+
+<!--Add Item Row ************************************************************************************** -->
+<div  [@showHideNewRow]="openCloseAddItem(tModConfig.addItemActive)">
+	<div class="row-addtem">
+		<div class="row-edit-btns" *ngIf="!hiddeBtnsForAddItems">
+			<button class="btn btn-ico" (click)="outsideTableAction('aceptAddItem')">	
+				<span class="fa fa-check" title="Aceptar" ></span>
+			</button>
+			<button class="btn btn-ico" (click)="outsideTableAction('cancelAddItem')">	
+				<span class="fa fa-close" title="Cancelar" ></span>
+			</button>
+		</div>
+
+		<ng-content select="[addItemContent]"></ng-content>
+	</div>
+</div>
+
+<!--Circle Buttons ************************************************************************************** -->
+<div class="circle-buttons-container" *ngIf="tModConfig.circleButtons && hasCircleBtns">
+	<button class="btn-circle-and-text" type="button" *ngFor="let button of tModConfig.circleButtons" (click)="outsideTableAction(button.action)"
+	 [ngClass]="{'btn-circle-and-text--disable': button.action === 'addItem' && tModConfig.addItemActive  }">
+		<span class="circle">
+			<i class="{{button.icon}}"></i>
+		</span>
+		<span class="text" *ngIf="button.text">{{button.text}}</span>
+	</button>
+</div>

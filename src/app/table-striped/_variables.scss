@@ -1,0 +1,142 @@
+$bootstrap-sass-asset-helper: false !default;
+//
+// Variables
+// --------------------------------------------------
+
+$border-radius:			15px;
+
+//ICBC Colors
+$icbc-primary: #c4161c ;
+$icbc-primary-hover: #9b000a ;
+$icbc-secondary: #6f6f6f ;
+$icbc-secondary-hover: #3f3f3f ;
+
+//Colors for backgrounds and lines
+$icbc-background: #f3f4f4 ;
+$icbc-stroke: #e1e1e1;
+$icbc-tableLine: $icbc-stroke;
+
+//Colors for fonts only
+$icbc-font-link: #31a1d4 ;
+$icbc-font-header: #333333 ;
+$icbc-font-darkBlueGrey: #4d565f ;
+$icbc-font-blueGrey: #818b95 ;
+$icbc-font-darkGrey: #676767 ;
+$icbc-font-grey: #bfbebe ;
+
+//Feedback Colors
+$icbc-danger: $icbc-primary;
+$icbc-warning: #96722e ;
+$icbc-success: #80af79 ;
+$icbc-info: #447eaf ;
+$icbc-dangerLigth: #f7f0f0 ;
+$icbc-warningLigth: #f8f4d5 ;
+$icbc-successLigth: #f4f9f2 ;
+$icbc-infoLigth: #dfedf4 ;
+
+
+//Operation Status colors
+$icbc-status-draft: 	#808184;
+$icbc-status-reopened: 	#333333;
+$icbc-status-created: 	#333333;
+$icbc-status-signed: 	#dbad2b;
+$icbc-status-approved: 	$icbc-status-signed;
+$icbc-status-released: 	#6fbd44;
+$icbc-status-process: 	#4776ba;
+$icbc-status-denied: 	#ce2439;
+
+
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+$title-font: 'Gustan-Book';
+$title-font-bold: 'Gustan-Bold';
+
+//Bootstrap colors: DO NOT USE THEM!
+$gray-base:             #000000 !default;
+$gray-darker:           $icbc-font-header; //lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:             $icbc-font-darkBlueGrey;  //545454 
+$gray:                  $icbc-font-darkGrey; //818181
+$gray-light:            $icbc-font-grey; //c6c6c6
+$gray-lighter:          $icbc-background; //eee
+$gray-advanced:         $icbc-font-grey;
+
+
+$brand-primary:         $icbc-primary; 
+$brand-primary-dark:    darken($icbc-primary, 20.5%); 
+$brand-primary-light:   lighten($icbc-primary, 20.5%);
+$brand-secondary:       $icbc-secondary;
+$brand-success:         $icbc-success;
+$brand-success-light:   $icbc-successLigth;
+$brand-success-medium:  lighten($brand-success, 20%);
+$brand-info:            $icbc-info;
+$brand-info-light:      $icbc-infoLigth;
+$brand-info-medium:  	lighten($brand-info, 40%);
+$brand-warning:         $icbc-warning ;
+$brand-warning-light:   $icbc-warningLigth ;
+$brand-warning-medium:  lighten($brand-warning, 20%);
+$brand-danger:          $icbc-primary ;
+$brand-danger-light:    $icbc-dangerLigth ;
+$brand-danger-medium:   lighten($brand-danger, 40%) ;
+
+$brand-link:            $icbc-font-link;
+$brand-background:      $icbc-background;
+
+$font-primary:          $icbc-font-darkBlueGrey;
+$font-dark:             $icbc-font-darkGrey;
+
+$font-light:            $icbc-font-blueGrey;
+$font-lighter:          $icbc-font-grey;
+$font-header:           $icbc-font-header;
+
+$alert-danger:          $icbc-primary;
+$alert-danger-light:    $icbc-dangerLigth;
+$alert-info:            $icbc-info;
+$alert-info-light:      $icbc-infoLigth;
+$alert-warning:         $icbc-warning;
+$alert-warning-light:   $icbc-warningLigth;
+$alert-success:         #80af79;
+$alert-success-light:   $icbc-successLigth;
+
+$button-primary-hover:  $icbc-primary-hover;
+$button-secundary-hover:$icbc-secondary;
+$button-table-hover:    $icbc-secondary-hover;
+$button-disable:        0.3;
+
+
+$table-checked:         $icbc-infoLigth;
+$table-cout:         	$icbc-font-grey;
+
+
+
+
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif:  "Arial", Helvetica, sans-serif ;
+
+
+
+//FONTS icbc
+$font-size-base:          14px !default;
+$font-size-large:         18px;
+$font-size-small:         12px; 
+$font-size-tiny:          10px; 
+ 
+$font-size-label:         12px; 
+$font-size-input:         12px; 
+$font-size-table:         12px; 
+$font-size-sections-link: 13px;
+$font-size-alertTitle:    18px; 
+
+$font-size-h1:            26px; // ~36px
+$font-size-h2:            21px; // ~30px
+$font-size-h3:            18px; // ~24px
+
+
+// FontAwesome
+$fa-font-path: "../fonts/font-awesome";
+
+// == Bootstrap Select
+$width-default: 100%; // 3 960px-grid columns

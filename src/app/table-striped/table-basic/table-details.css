@@ -1,0 +1,131 @@
+.container-details {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  padding-left: 22px;
+  padding-right: 22px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e1e1e1; }
+
+.details {
+  width: 100%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 0; }
+  .details__title {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-family: 'Gustan-Book';
+    color: #4d565f;
+    margin-left: 38px; }
+  .details__subTitle {
+    font-family: 'Gustan-Bold';
+    font-size: 12px; }
+  .details__content {
+    font-size: 14px; }
+    .details__content span, .details__content a {
+      display: inline-block; }
+  .details__list {
+    list-style: none; }
+  .details--historic {
+    content: "";
+    display: table;
+    clear: both;
+    width: 100%; }
+
+@media (min-width: 768px) {
+  .details__list__listitem {
+    margin-bottom: 5px;
+    color: #676767; }
+  .details__list__histoitem {
+    width: calc(25% - 8px);
+    padding: 10px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #bfbebe;
+    background-color: white;
+    min-height: 85px;
+    float: left; }
+    .details__list__histoitem--status-draft {
+      border-top: 3px solid #808184; }
+    .details__list__histoitem--status-reopened {
+      border-top: 3px solid #333333; }
+    .details__list__histoitem--status-created {
+      border-top: 3px solid #333333; }
+    .details__list__histoitem--status-signed {
+      border-top: 3px solid #dbad2b; }
+    .details__list__histoitem--status-approved {
+      border-top: 3px solid #dbad2b; }
+    .details__list__histoitem--status-released {
+      border-top: 3px solid #6fbd44; }
+    .details__list__histoitem--status-in_process, .details__list__histoitem--status-process, .details__list__histoitem--status-with_errors {
+      border-top: 3px solid #4776ba; }
+    .details__list__histoitem--status-denied, .details__list__histoitem--status-expired, .details__list__histoitem--status-rejected {
+      border-top: 3px solid #ce2439; }
+  .details__historic-image {
+    border: 1px solid #f3f4f4;
+    padding: 1px;
+    margin-right: 15px;
+    float: left; }
+  .details__historic-info {
+    float: left;
+    margin-top: 7px; }
+    .details__historic-info .ico-status {
+      margin-top: 10px;
+      margin-bottom: 10px; }
+    .details__historic-info a {
+      display: block; } }
+/************************** MOBILE **********************************
+*********************************************************************/
+@media (max-width: 768px) {
+  .container-details {
+    padding-left: 19px;
+    padding-right: 19px;
+    border-bottom: none; }
+
+  .details__list__histoitem {
+    width: 100%; }
+
+  .details__title {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-family: 'Gustan-Bold'; }
+  .details__list__listitem .details__subTitle {
+    width: 45%;
+    font-family: 'Gustan-Bold';
+    font-size: 12px;
+    color: #818b95;
+    float: left;
+    padding-bottom: 7px; }
+  .details__list__listitem .details__content {
+    width: 52%;
+    font-size: 12px;
+    float: right;
+    padding-bottom: 7px; }
+  .details__list__histoitem {
+    width: 100%; }
+  .details__historic-image {
+    display: none; }
+  .details__historic-info {
+    margin-top: 4px; }
+    .details__historic-info .details__subTitle {
+      font-family: 'Gustan-Bold';
+      font-size: 12px;
+      display: inline-block; }
+    .details__historic-info .details__content {
+      font-size: 12px;
+      display: inline-block;
+      margin-left: 3px; }
+    .details__historic-info .ico-status {
+      font-size: 12px;
+      display: inline-block;
+      margin-left: 3px; }
+    .details__historic-info a {
+      display: inline-block;
+      margin-left: 3px; }
+    .details__historic-info a:not(:last-child):after {
+      content: ", ";
+      color: #818b95; } }
+
+/*# sourceMappingURL=table-details.css.map */

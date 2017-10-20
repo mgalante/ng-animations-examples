@@ -1,0 +1,40 @@
+
+
+<div class="table-summary" [@summaryTrigger]="openClose" >
+    <div class="table-summary__content"> 
+
+        <ng-container *ngIf="tBasicSummary?.config.hasItemTotal">
+        <p class="table-summary__total-items">
+        Items agregados: 
+        <span class="total-items-number">{{getTotalItems()}}</span>
+        </p>
+        </ng-container>
+        <div class="table-summary__info">
+            <ng-container *ngIf="tBasicSummary?.config.hasValueTotal">
+                <p class="table-summary__total-amount" >
+                Total: $<span class="total-amount-number">{{totalValue | number : '1.2-2'}}</span>
+                </p>
+            </ng-container>
+            <ng-container *ngIf="tBasicSummary?.config.hasActionBtn">
+                <button class="btn btn-table-action btn-summary-action" (click)="summaryAction(tBasicSummary?.data.actions.mainAction.action)">
+                {{tBasicSummary?.data.actions.mainAction.title}} 
+                </button>
+            </ng-container>
+            <ng-container *ngIf="tBasicSummary?.config.hasContexmenu">
+                <div class="dropdown row-menu hidden-xs" *ngIf="tBasicSummary?.data.actions.contextualMenu.length > 0">
+                     <button class="btn btn-contexmenu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                     </button>
+                     <ul class="dropdown-menu" >
+                            <li *ngFor="let cmItem of tBasicSummary?.data.actions.contextualMenu">
+                            <a (click)="summaryAction(cmItem.action)">{{cmItem.title}}</a>
+                            </li>
+                     </ul>
+                </div>
+                </ng-container>
+            <button  class="btn btn-transparent small-button" type="button" (click)="closeSummary()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>

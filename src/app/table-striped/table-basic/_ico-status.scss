@@ -1,0 +1,83 @@
+
+//*********ESTATUS***************//
+.ico-status {
+	font-family: 'Gustan-Bold';
+	min-width:59px;
+	height: 22px;
+	background-repeat: no-repeat;
+	background-size: 60px;
+	background-position: left top ;
+	position: relative;
+	left:-3px;
+	span{
+		position: relative;
+		top: 10px;
+		left: 2px;
+	}
+
+	&--draft{
+		background-image: url('../../../assets/images/icons/status-draft.svg');
+		span {color:$icbc-status-draft;}
+	}
+	&--reopened {
+		background-image: url('../../../assets/images/icons/status-draft.svg');
+		span {color:$icbc-status-reopened;}
+	}
+	&--created {
+		background-image: url('../../../assets/images/icons/status-created.svg');
+		span {color:$icbc-status-created;}
+	}
+	&--signed {
+		background-image: url('../../../assets/images/icons/status-signed.svg');
+		span {color:$icbc-status-signed;}
+	}
+	&--approved {
+		background-image: url('../../../assets/images/icons/status-approved.svg');
+		span {color:$icbc-status-approved;}
+	}
+	&--released {
+		background-image: url('../../../assets/images/icons/status-released.svg');
+		span {color:$icbc-status-released;}
+	}
+	&--in_process,
+	&--process,
+	&--with_errors {
+		background-image: url('../../../assets/images/icons/status-process.svg');
+		span {color:$icbc-status-process;}
+	}
+	&--denied,
+	&--expired,
+	&--rejected {
+		background-image: none;
+		span {
+			color:$icbc-status-denied;
+			top: 1px;
+		}
+	}
+}
+@media (max-width: 768px) {
+
+	//*********ESTATUS***************//
+	.ico-status {
+		span {
+			top: -1px;
+		}
+		&--draft,
+		&--reopened,
+		&--created,
+		&--signed,
+		&--approved,
+		&--released,
+		&--in_process, 
+		&--process,
+		&--with_errors,
+		&--denied,
+		&--expired,
+		&--rejected {
+			background-image: none;
+			span {
+				top: -1px;
+			}
+		}
+	}
+}

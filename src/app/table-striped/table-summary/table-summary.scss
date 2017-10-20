@@ -1,0 +1,88 @@
+@import "../variables";
+@import "../buttons";
+
+.table-summary {
+    background-color: $gray-light;
+    border-radius: 4px;
+    height: 55px;
+    position: relative;
+    margin: 10px 0;
+    overflow: hidden;
+    &__content{
+        padding: 10px 6px 10px 10px;
+    }
+    &__info {
+        float: right;
+        width: 70%;
+        text-align: right;
+        p, div, button {
+            display: inline-block;
+        }
+       
+    }
+
+    &__close {
+        font-size: 42px;
+        color: white;
+        margin-top: -2px;
+        margin-right: 8px;
+        opacity: 0.7;
+        text-shadow: none;
+        &:hover {
+            color: white;
+            opacity: 1;
+        }
+        span {
+            font-weight: lighter;
+        }
+    }
+
+    &__total-items {
+        display: inline-block;
+        margin: 8px 12px;
+    }
+    /*
+    @media (max-width: 768px) {
+        background-color: $gray-light;
+        border-radius: 4px;
+        padding: 10px;
+        height: 62px;
+        width: 100%;
+        position: fixed;
+        z-index: 99;
+        bottom: 0;
+        left: 0;
+        border-radius: 0;
+        &__total-items {
+            display: inline-block;
+            margin: 8px 12px;
+            position: absolute;
+            left: 40px;
+            top: 0;
+        }
+        &__info {
+            float: right;
+            width: 70%;
+            text-align: right;
+            p, div, button {
+                display: inline-block;
+            }
+            button.close {
+                position: absolute;
+                left: 0;
+                &:hover {
+                    opacity: 1;
+                }
+                span {
+                    font-weight: lighter;
+                }
+            }
+            & > p {
+                top:22px;
+            }
+        }
+        .dropdown-menu {
+            top: -85px;
+        }
+    }*/
+}

@@ -1,0 +1,190 @@
+@import "../variables";
+
+.container-details {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    padding-left: 22px;
+    padding-right: 22px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid $icbc-tableLine; 
+}
+    .details {
+        width: 100%;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 0;
+
+        &__title {
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-family: 'Gustan-Book';
+            color: $icbc-font-darkBlueGrey;
+            margin-left: 38px;
+        }
+        &__subTitle{
+            font-family: 'Gustan-Bold';
+            font-size: $font-size-small;
+        }
+        &__content{
+            font-size: $font-size-base;
+            span,a{
+                display: inline-block;
+            }
+        }
+        &__list{
+            list-style: none;
+        }
+        &--historic{
+            content: "";
+            display: table;
+            clear: both;
+            width: 100%;
+        }
+    }
+@media (min-width: 768px) {
+    .details {
+        
+        &__list{
+
+            &__listitem {
+                margin-bottom: 5px;
+                color:$icbc-font-darkGrey;
+            } 
+            &__histoitem {
+                width:  calc(25% - 8px);
+                padding: 10px; 
+                margin-right: 8px;
+                margin-bottom: 8px;
+                border: 1px solid $gray-light;
+                background-color: white;
+                min-height: 85px;
+                float: left;
+
+                &--status{
+                    &-draft {
+                        border-top: 3px solid $icbc-status-draft;
+                    }
+                    &-reopened {
+                        border-top: 3px solid $icbc-status-reopened;
+                    }
+                    &-created {
+                        border-top: 3px solid $icbc-status-created;
+                    }
+                    &-signed {
+                        border-top: 3px solid $icbc-status-signed;
+                    }
+                    &-approved {
+                        border-top: 3px solid $icbc-status-approved;
+                    }
+                    &-released {
+                        border-top: 3px solid $icbc-status-released;
+                    }
+                    &-in_process,
+                    &-process, 
+                    &-with_errors {
+                        border-top: 3px solid $icbc-status-process;
+                    }
+                    &-denied,
+                    &-expired,
+                    &-rejected {
+                        border-top: 3px solid $icbc-status-denied;
+                    }
+                }
+            }
+
+        }
+        &__historic-image {
+            border: 1px solid $gray-lighter;
+            padding: 1px;
+            margin-right: 15px;
+            float: left;
+        }
+        &__historic-info {
+            float: left;
+            margin-top: 7px;
+            .ico-status{
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            a{
+                display: block;
+            }       
+        }
+    }
+}
+
+
+/************************** MOBILE **********************************
+*********************************************************************/
+
+@media (max-width: 768px) {
+    .container-details {
+        padding-left: 19px;
+        padding-right: 19px;
+        border-bottom: none; 
+    }
+    .details__list__histoitem{
+        width: 100%;
+    }
+    .details {
+        &__title {
+            margin-bottom: 10px;
+            font-size: $font-size-base;
+            font-family: 'Gustan-Bold';
+        }
+        &__list{
+            &__listitem {
+                .details__subTitle{
+                    width: 45%;
+                    font-family: 'Gustan-Bold';
+                    font-size: $font-size-small;
+                    color: $icbc-font-blueGrey;
+                    float: left;
+                    padding-bottom: 7px;
+                }
+                .details__content{
+                    width: 52%;
+                    font-size: $font-size-small;
+                    float: right;
+                    padding-bottom: 7px;
+                }
+            } 
+            &__histoitem {
+                width: 100%;
+            }
+        }
+        &__historic-image {
+            display: none;
+        }
+        &__historic-info {
+            margin-top: 4px;
+
+            .details__subTitle{
+                font-family: 'Gustan-Bold';
+                font-size: $font-size-small;
+                display: inline-block;
+            }
+            .details__content{
+                font-size: $font-size-small;
+                display: inline-block;
+                margin-left: 3px;
+            }
+            .ico-status{
+                font-size: $font-size-small;
+                display: inline-block;
+                margin-left: 3px;
+            }
+            a{
+                display: inline-block;
+                margin-left: 3px;
+            }
+            a:not(:last-child):after {
+                content: ", ";
+                color: $icbc-font-blueGrey;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,41 @@
+
+
+<ng-container *ngIf="row.details.historyDetail.length > 0">
+<div class="details details--historic">
+    <h3 class="details__title">Historial</h3>
+    <ul class="details__list">
+        <!-- action history -->
+        <li class="details__list__histoitem details__list__histoitem--status-{{histoItem.status}}" *ngFor="let histoItem of row.details.historyDetail" >
+            <img class="details__historic-image img-circle"[src]="histoItem.image" alt="" >
+            <div class="details__historic-info">
+                <p class="details__subTitle">{{histoItem.name}}</p>
+                <p class="details__content">{{histoItem.date}}</p>
+                <div class="ico-status ico-status--{{histoItem.status}}">
+                <span>{{histoItem.statusTitle}}</span>
+                </div>
+            </div>
+        </li>
+
+        <!-- User reminder action-->
+        <li class="details__list__histoitem" *ngIf="row.details.historyDetail.length <= histoPendingActions.actions.length">
+            <img class="details__historic-image img-circle" src="./assets/images/history-ge-user.jpg" alt="" >
+            <div class="details__historic-info">
+
+                <ng-container  [ngSwitch]="row.details.historyDetail.length">
+                    <p *ngSwitchCase="1" class="details__subTitle">{{ histoPendingActions.actions[0] }}</p>
+                    <p *ngSwitchCase="2" class="details__subTitle">{{ histoPendingActions.actions[1] }}</p>
+                    <p *ngSwitchCase="3" class="details__subTitle">{{ histoPendingActions.actions[2] }}</p>
+                    <p *ngSwitchDefault></p>
+                </ng-container >
+                <p class="details__content">Hasta {{row.rowData.date}}</p>
+                <ng-container *ngFor="let user of histoPendingActions.users">
+                    <a *ngIf="!row.disable" (click)="reminderModal(user.action,user.name)">{{ user.name }}</a>
+				    <p *ngIf="row.disable" class="a-disabled">{{ user.name }}</p><!-- disable action-->	
+                </ng-container >
+            </div>
+        </li>
+
+
+    </ul>
+</div>
+</ng-container> 

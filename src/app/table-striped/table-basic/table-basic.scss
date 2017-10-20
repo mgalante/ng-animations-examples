@@ -1,0 +1,251 @@
+@import "../variables";
+@import "../buttons";
+@import "ico-status";
+
+
+//********* TABLE - BASIC ***************//
+
+.table-dinamic, 
+.table-dinamic-mobile{
+	font-size: $font-size-small;
+	width:100%;
+}
+.table-dinamic{
+	//*********ROWS***************//
+	.rowodd{
+		background-color: $brand-background;
+	}
+	.roweven{
+		background-color: white;
+	}
+	.row-thead{
+		font-family: 'Gustan-Bold';
+		color: $icbc-font-blueGrey; 
+		border-bottom: 1px solid $icbc-tableLine; 
+	}
+	.row-columns,
+	.row-actions-mobile,
+	.row-details{
+		border-bottom: 1px solid $icbc-tableLine; 
+		font-family: arial;
+		color: $icbc-font-darkBlueGrey; 
+	}
+	.row-details{
+		margin: 0;
+		padding: 0;
+		border:none
+	}
+	.row-actions-mobile{}
+
+	//*********ROWS feedback***************//
+
+	.feedbackline{
+		width: 7px;
+		background: transparent;
+		padding:0;
+	}
+
+	.row--danger{
+		background: $icbc-dangerLigth;
+		.feedbackline{background: $icbc-danger;}
+	}
+	.row--warning{
+		background: $icbc-warningLigth;
+		.feedbackline{background: $icbc-warning;}
+	}
+	.row--success{
+		background: $icbc-successLigth;
+		.feedbackline{background: $icbc-success;}
+	}
+	.row--info{
+		background: $icbc-infoLigth;
+		.feedbackline{background: $icbc-info;}
+	}
+	.row--select{
+		background: $icbc-infoLigth;
+		//.feedbackline{background: transparent;} 
+	}
+	.row--disabled{
+		opacity: .3;
+		//background: $icbc-infoLigth;
+		//.feedbackline{background: transparent;} 
+	}
+		
+	//*********COLUMNS***************//
+	.column {
+		//min-height: 45px;
+		text-align: left;
+		padding: 5px 8px;
+		
+		line-height: 1.42857;
+		text-align: left;
+		&.column--thead{
+			border-top:none;
+		}
+		&.column--nodata{
+			padding: 0;
+		}
+		&.column--checkbox{
+			padding-left:15px;
+			padding-right: 0;
+			width: 50px;
+		}
+		&.column--status{
+			min-width:60px;
+		}
+		&.column--actions{
+			padding-right:0;
+		}
+		&.column--contexmenu{
+			padding-right:0;
+			padding-left:7px;
+			width: 34px;
+		}
+		&.column--accordion{
+			padding-right:8px;
+			padding-left:0;
+			width: 34px;
+		}
+		&.column--details{
+			//padding-bottom: 15px;
+			margin: 0;
+			padding: 0;
+		}
+
+		.currency{
+			color: $icbc-font-blueGrey; 
+			margin-right: 2px;
+		}
+		.value{
+			float: right;
+			padding-right: 15px;
+		}
+		img{
+			width: 38px;
+		}
+		.date{
+			&--inmediate,
+			&--nextTo{
+				font-weight: bold;
+				:after {
+				   font-family: FontAwesome;
+				   content: "\f06a";
+				   display: inline-block;
+				   vertical-align: middle;
+				   margin-left: 5px;
+				}
+			}
+			&--inmediate{
+				color:$icbc-danger;
+			}
+			&--none{}
+		}
+		.prod-bullet{
+			display: inline-block;
+			background: $icbc-font-grey;
+			width: 22px;
+			height: 22px;
+			text-align: center;
+			border-radius: 50%;
+			color: #FFF;
+			font-size: $font-size-tiny;
+			text-transform: uppercase;
+			padding-top: 4px;
+			margin: 0 4px 4px 0; 
+
+			&--active{
+				background: $icbc-font-darkBlueGrey;
+			}
+		}
+		
+	}
+}
+
+
+
+
+//*********MOBILE******************************************************************************************************************//
+//*********************************************************************************************************************************//
+@media (max-width: 768px) {
+	.table-dinamic{
+		
+		.row-columns,
+		.row-actions-mobile,
+		.column{
+			display: block;
+		}
+		.row-columns,
+		.row-details{
+			border-bottom: none;
+		}
+		.row-actions-mobile{
+			border-bottom: 1px solid $icbc-tableLine; 
+		}
+		
+		.row-thead{
+			display: none;
+		}
+		.row-columns {
+			position: relative; 
+			padding-top: 15px;
+
+			.column{
+
+
+				&:before { 
+					position: absolute;
+					top:0;
+					left: 20px;
+					width: 45%; 
+					font-family: 'Gustan-Bold';
+					color: $icbc-font-blueGrey; 
+					//white-space: nowrap;
+					content: attr(data-th);
+				}
+				&:not(.column--accordion){
+					position: relative;
+					text-align: left;
+					padding: 0 0 0 48%;
+					//min-height: 24px;
+                    padding-bottom: 7px;
+				}
+				&.column--accordion{
+					position: absolute;
+					top:0;
+					right: 9px;
+	    			width: 34px;
+
+				}
+				.currency{
+					color: $icbc-font-blueGrey; 
+				}
+				.value{
+					float: none;
+					padding-right: 0;
+				}
+			}
+		}
+		.row-actions-mobile{
+			width: 100%;
+		}
+
+
+		.column-mobile-checkbox{
+			width: 46px;
+		    text-align: left;
+		    padding-left: 10px;
+		    position: relative
+		}
+		.column-mobile-action{
+			padding: 8px 0;
+			.btn-table-action{
+				min-height: 34px;
+			}
+		}
+		.column-mobile-contexmenu{
+		    width: 46px;
+		    text-align: right;
+		    padding-right: 2px;
+		}
+	}
+}

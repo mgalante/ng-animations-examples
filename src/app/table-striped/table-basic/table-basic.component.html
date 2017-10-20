@@ -1,0 +1,248 @@
+
+
+<table class="table-dinamic"> 
+<!--Table header ************************************************************************************* -->
+<thead class="hidden-xs" *ngIf="tConfig.hasThead">
+	<tr class="row-thead">
+		<!--//////////Static columns *********-->
+		<th class="feedbackline" *ngIf="tConfig.hasFeedbackline"></th> <!--//column: feedbackline-->
+		<th class="column column--checkbox column--thead" *ngIf="tConfig.hasCheckbox"><!--//column: checkbox-->
+			<div class="checkbox">
+				<label><input type="checkbox"[checked]="checkAll" (change)="rowCheckAll(index)"></label>
+			</div>
+		</th>
+		<!--//////////Dinamic columns ********-->
+		<ng-container *ngFor="let thHead of tHead; let index=index " >
+		<ng-container [ngSwitch]="thHead?.dataType" >
+			<ng-container *ngSwitchDefault><!--//Default (string)-->
+				<th class="column column--{{thHead?.title}} column--thead"> 
+					<button class="btn-order-arrows" (click)="sortBy(index)" *ngIf="thHead?.sortBtnDisplay"><!--//sortBy: display-->
+					{{thHead?.title}} <i class="fa {{sortByIcon(index)}}"></i>
+					</button>
+					<div *ngIf="!thHead?.sortBtnDisplay">{{thHead?.title}}</div><!--//sortBy: NOT display-->
+				</th>
+			</ng-container>
+		</ng-container>
+		</ng-container>
+		<!--//////////Actions desktop ********-->
+		<th class="column column--actions 	 column--thead" *ngIf="tConfig.hasMainAction">{{tConfig.mainActionTitle}}</th>
+		<th class="column column--contexmenu column--thead" *ngIf="tConfig.hasContextualMenu"></th>
+		<th class="column column--accordion  column--thead" *ngIf="tConfig.hasDetails"></th> 
+	</tr>
+</thead>
+
+
+
+<!--Table Body **************************************************************************************** -->
+<tbody>
+	<ng-container *ngFor="let row of tBody; let index=index; let odd=odd; let even=even; ">
+		<!--Table columns ********************************************************************************* -->
+		<tr class="row-columns" 
+			[ngClass]="{	
+				rowodd: odd, 
+				roweven: even, 
+				'row--disabled': row.disable,
+				'row--select': 	row.checked, 
+				'row--success': row.rowFeedback === 'success', 
+				'row--danger': 	row.rowFeedback === 'danger' , 
+				'row--warning': row.rowFeedback === 'warning',
+				'row--info': 	row.rowFeedback === 'info',
+				'': 			row.rowFeedback === null
+			}">
+			<!--//////////Static columns *********-->
+			<td class="feedbackline hidden-xs" *ngIf="tConfig.hasFeedbackline"></td> <!--//column: feedbackline-->
+			<td class="column column--checkbox hidden-xs" *ngIf="tConfig.hasCheckbox"><!--//column: checkbox-->
+				<div class="checkbox">
+				<label><input type="checkbox"[checked]="row.checked" (change)="rowCheck(index)" [disabled]="row.disable"></label>
+				</div>
+			</td> 
+			<!--//////////Dinamic columns ********-->
+			<ng-container *ngFor="let item of tHead" >
+			<ng-container [ngSwitch]="item.dataType">
+
+				<ng-container *ngSwitchCase="1"><!--//column: Currency & Value-->
+					<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.att2}}">
+						<span class="currency">{{row?.rowData[item.attribute.att1]}}</span>
+						<span class="value">{{row?.rowData[item.attribute.att2] | number : '1.2-2'}}</span>
+					</td>
+				</ng-container>
+				<ng-container *ngSwitchCase="2"><!--//column: LinkRute & linkTitle-->
+					<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute.att2}}">
+					<a 		*ngIf="!row.disable" href="{{row?.rowData[item.attribute.att1]}}">{{row?.rowData[item.attribute.att2]}}</a>
+					<span *ngIf="row.disable" class="a-disabled">{{row?.rowData[item.attribute.att2]}}</span>	
+					</td>
+				</ng-container>
+				<ng-container *ngSwitchCase="3"><!--//column: StatusTitle & status-->
+					<td attr.data-th="{{item?.title}}" class="column column--status">
+						<popover-content #myPopover [closeOnClickOutside]="true">
+							<b>{{row?.details?.historyDetail[historyDetailItem(index)]?.statusTitle}}</b><br>
+							<span>{{row?.details?.historyDetail[historyDetailItem(index)]?.name}}</span><br> 
+							<span>{{row?.details?.historyDetail[historyDetailItem(index)]?.date}}</span> 
+						</popover-content>
+					<div class="ico-status ico-status--{{row?.rowData[item.attribute.att2]}}" 
+					[popover]="myPopover" [popoverDisabled]="row.disable || historyDetailItem(index) === null" [popoverOnHover]="true">
+					<span>{{row?.rowData[item.attribute.att1]}}</span>
+					</div>
+					</td>
+				</ng-container>
+				<ng-container *ngSwitchCase="4"><!--//column: date & dateAlert-->
+					<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute}}">
+						<ng-container *ngIf="row?.rowData[item.attribute.att2]==='nextTo' ">
+						<div class="date date--{{row?.rowData[item.attribute.att2]}}" popover="Proximo a vencer" [popoverOnHover]="true"  [popoverDisabled]="row.disable">
+						<span>{{row?.rowData[item.attribute.att1]}}</span>
+						</div>
+						</ng-container>
+
+						<ng-container *ngIf="row?.rowData[item.attribute.att2]==='inmediate' ">
+						<div class="date date--{{row?.rowData[item.attribute.att2]}}" popover="Vence hoy" [popoverOnHover]="true"  [popoverDisabled]="row.disable">
+						<span>{{row?.rowData[item.attribute.att1]}}</span>
+						</div>
+						</ng-container>
+
+						<ng-container *ngIf="row?.rowData[item.attribute.att2]!='nextTo' && row?.rowData[item.attribute.att2]!='inmediate' ">
+						<div class="date date--{{row?.rowData[item.attribute.att2]}}">
+						<span>{{row?.rowData[item.attribute.att1]}}</span>
+						</div>
+						</ng-container>
+					</td>
+				</ng-container>
+				<ng-container *ngSwitchCase="5"><!--//column: photo-->
+					<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute}}">
+					<img alt="" class="img-circle" [src]="row?.rowData[item.attribute]">
+					</td>
+				</ng-container>
+				 <ng-container *ngSwitchCase="6"><!--//column: string & Tooltip-->
+					<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute}}" >
+					<span popover="{{row?.rowData[item.attribute.att2]}}" [popoverOnHover]="true" [popoverDisabled]="row.disable">
+					{{row?.rowData[item.attribute.att1]}} <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+					</span>
+					</td>
+				</ng-container>
+				 <ng-container *ngSwitchCase="7"><!--//column: string & Tooltip-->
+					<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute}}" >
+					<ng-container *ngFor="let bullet of row?.rowData[item.attribute.att2]">
+						<div class="prod-bullet" 
+						[ngClass]="{ 'prod-bullet--active': bullet.prod === row?.rowData[item.attribute.att1] }"
+						popover="{{bullet.tooltip}}" [popoverOnHover]="true" [popoverDisabled]="row.disable">
+							{{bullet.prod}}
+						</div>
+					</ng-container >
+					</td>
+				</ng-container>
+				<ng-container *ngSwitchDefault><!--//column: Default (string)-->
+					<td attr.data-th="{{item?.title}}" class="column column--{{item?.attribute}}" >
+					{{row?.rowData[item.attribute]}}
+					</td>
+				</ng-container>
+			</ng-container>
+			</ng-container>
+
+			<!--//////////Static column: Actions desktop ********-->
+			<td class="column column--actions hidden-xs" *ngIf="tConfig.hasMainAction"><!--//column: Main action-->
+				<button class="btn btn-table-action" type="submit" [disabled]="row.disable" 
+				(click)="rowAction([index],[row],[row?.rowActions.mainAction.action])">
+					{{row?.rowActions.mainAction.title}}
+				</button> 
+			</td>
+			<td class="column column--contexmenu hidden-xs" *ngIf="tConfig.hasContextualMenu"><!--//column: Contextual menu-->
+				<ng-container *ngIf="row.rowActions.contextualMenu?.length > 0">
+				<div class="dropdown row-menu hidden-xs">
+					 <button class="btn btn-contexmenu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+					 [disabled]="row.disable" >
+							<i class="fa fa-bars" aria-hidden="true"></i>
+					 </button>
+					 <ul class="dropdown-menu" >
+						<li *ngFor="let cmItem of row.rowActions.contextualMenu">
+						<a (click)="rowAction([index],[row],[cmItem.action])">{{cmItem.title}}</a>
+						</li>
+					 </ul>
+				</div>
+				</ng-container>
+			</td>
+			<td class="column column--accordion" *ngIf="tConfig.hasDetails"><!--//column: accordion-->
+				<ng-container *ngIf="row.details.listDetail?.length > 0 || row.details.historyDetail?.length > 0">
+					<button class="btn btn-accordion" type="button" (click)="toggleDetail(index)" >
+					<i class="fa " [ngClass]="{
+							'fa-chevron-down':	row.state == 'close' || !row.state , 
+							'fa-chevron-up': 	row.state == 'open'
+					}"></i>
+					</button>
+				</ng-container>
+			</td>
+		</tr>
+		
+
+
+
+		<!--Row Details ********************************************************************************** -->
+		<!--[hidden]="!row.rowDetails"-->
+		<tr class="row-details"   
+			[ngClass]="{	
+				rowodd: odd, 
+				roweven: even, 
+				'row--disabled': row.disable,
+				'row--select': 	row.checked, 
+				'row--success': row.rowFeedback === 'success', 
+				'row--danger': 	row.rowFeedback === 'danger' , 
+				'row--warning': row.rowFeedback === 'warning',
+				'row--info': 	row.rowFeedback === 'info'
+			}">
+			<td attr.colspan="{{tHead?.length +5}}" class="column column--details">
+				<div [@acordionToggle]="row.state || 'close'">
+					<div class="container-details"> 
+						<details-general-component [row]="row" ></details-general-component>
+						<details-historic-component [row]="row" [histoPendingActions]="tConfig.histoPendingActions"></details-historic-component>
+					</div>
+				</div>
+			</td>
+		</tr>
+
+
+
+
+		<!--Row Actions Mobile *************************************************************************** -->
+		<tr class="row-actions-mobile visible-xs" 
+			[ngClass]="{	
+				rowodd: odd, 
+				roweven: even, 
+				'row--disabled': row.disable,
+				'row--select': 	row.checked, 
+				'row--success': row.rowFeedback === 'success', 
+				'row--danger': 	row.rowFeedback === 'danger' , 
+				'row--warning': row.rowFeedback === 'warning',
+				'row--info': 	row.rowFeedback === 'info'
+			}">
+			<td attr.colspan="{{tHead?.length +5}}" class="column">
+
+				<table class="table-dinamic-mobile">
+				<tr>
+				<td class="column-mobile-checkbox"><!--//column: checkbox-->
+					<div class="checkbox">
+					<label><input type="checkbox"[checked]="row.checked" (change)="rowCheck(index)" [disabled]="row.disable"></label>
+					</div>
+				</td>
+				<td attr.colspan="{{tHead?.length +3}}" class="column-mobile-action" *ngIf="tConfig.hasMainAction"><!--//column: Main action-->
+					<button class="btn btn-table-action" type="submit" [disabled]="row.disable" (click)="rowAction([index],[row],[row?.rowActions.mainAction.action])">
+						{{row?.rowActions.mainAction.title}}
+					</button> 
+				</td>
+				<td class="column-mobile-contexmenu" *ngIf="tConfig.hasContextualMenu"><!--//column: Contextual menu-->
+					<div class="dropdown row-menu">
+						 <button class="btn btn-contexmenu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="row.disable">
+								<span class="icon-sub-menu"></span>
+						 </button>
+						 <ul class="dropdown-menu" >
+								<li *ngFor="let cmItem of row.rowActions.contextualMenu"><a (click)="rowContextualMenu([index],[row.rowData],[cmItem.action])">{{cmItem.title}}</a></li>
+						 </ul>
+					</div>
+				</td>
+				</tr>
+				</table>
+
+			</td>
+		</tr>
+
+
+	</ng-container><!--/Row-->
+</tbody>
+</table>

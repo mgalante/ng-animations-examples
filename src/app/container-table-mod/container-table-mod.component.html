@@ -1,0 +1,34 @@
+
+
+<div class="container">
+  <!-- CONFIG FOR main-button-component: 
+  tableMode: "view", "editable", "form"
+  editable display row in view mode and add pencil icon button to change to edit mode.
+
+  hasCustomEditable: 
+  hide default edit fields & display customEditRowContent
+
+  hiddeBtnsForAddItems:
+  show / hide buttons forn new item row
+  -->
+  <table-modular-component 
+      tableMode="editable"
+      [hasCustomEditable]="false"
+      [hasSummary]="true"
+      [hasThead]="true"
+      [hasAddressbookMode]="false"
+      [hasCheckbox]=" true"
+      [hasCircleBtns]="true"
+      [hiddeBtnsForAddItems]="false" 
+      [tModConfig]="tModConfig" 
+      [tModHead]="tModHead" 
+      [tModBody]="tModBody" 
+      (tableActionEmitter)="onTableModAction($event)"
+      (outsideTableActionEmitter)="onOutsideTableAction($event)">
+      <div customEditRowContent>Custom Edit elements</div>
+      <div addItemContent>New item elements</div>
+  </table-modular-component>
+  <!-- (tableOrderbyActionEmitter)="onTableModOrderby($event)" -->
+
+
+</div>

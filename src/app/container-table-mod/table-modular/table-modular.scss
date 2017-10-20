@@ -1,0 +1,313 @@
+@import "../variables";
+@import "../buttons";
+@import "../forms";
+
+
+
+$border-radius-tm: 10px;
+
+.table-modular-summary{
+	width: 100%;
+	min-height: 45px;
+	padding:10px 0 6px 0;
+	&__topHead-line{
+		border-bottom: 1px solid $icbc-tableLine; 
+		width: 100%;
+	}
+	&__item,
+	&__total{
+		font-size: $font-size-base;
+		color: $icbc-font-blueGrey; 
+		font-family: 'Gustan-Book';
+		text-transform: uppercase; 
+    	display: inline-block;
+
+		span{
+			color: $icbc-font-darkBlueGrey; 
+			font-family: 'Gustan-Bold';
+    		padding-left: 5px;
+		}
+	}
+	&__item{
+		padding-left: 22px;
+	}
+	&__total{
+		float: right;
+		padding-right:16px;
+	}
+	&__checkbox-space{
+		width: 29px;
+		min-height: 15px;
+    	display: inline-block;
+	}
+}
+
+.table-modular{
+	font-size: $font-size-small;
+	width:100%;
+	font-family: arial;
+}
+
+
+//********* ROWS ***************//
+	
+	.row-thead,
+	.row-columns{
+		th:first-child,
+		td:first-child{
+			padding-left:22px;//15+7
+			padding-right: 0;
+		}
+		th:last-child,
+		td:last-child{
+			padding-right:8px;
+			padding-left:0;
+		}
+	}
+	.row-thead{
+		font-family: 'Gustan-Bold';
+		color: $icbc-font-blueGrey; 
+		padding: 5px;
+	}
+	.row-columns{
+		color: $icbc-font-darkBlueGrey; 
+		background: $icbc-background;
+		//height: 50px;
+	}
+	.row-columns{
+		td:first-child{
+			border-radius:$border-radius-tm 0 0 $border-radius-tm;
+			//margin-left: 15px;
+		}
+		td:last-child{
+			border-radius:0 $border-radius-tm $border-radius-tm 0;
+		}
+	}
+	.row-blank{
+		height: 5px;
+	}
+	.row--select{
+		background: $icbc-infoLigth;
+	}
+	/////////
+	.row-view{
+
+	}
+	.row-editable{
+
+	}
+	.row-editable-custom{
+
+	}
+
+
+
+	
+//********* COLUMNS ***************//
+
+	.column {
+		//min-height: 45px;
+		text-align: left;
+		padding: 5px 8px;
+		//line-height: 1.42857;
+		text-align: left;
+		vertical-align: middle;
+
+		&--thead{
+			border-top:none;
+			padding: 10px 5px 10px 5px;
+			vertical-align: middle!important;
+		}
+		&--input{
+			vertical-align: middle;// top;
+		}
+		/*&--delete,
+		&--close,
+		//&--button,
+		&--icon,
+		&--contexmenu{ 
+			padding: 0;
+		}*/
+		&--actions{
+			text-align: right;
+			&.column--thead{
+				text-align: center;
+			}
+		}
+	}
+
+//********* Feedback **************
+	.row--danger{
+		background: $icbc-dangerLigth;
+	}
+	.row--warning{
+		background: $icbc-warningLigth;
+	}
+	.row--success{
+		background: $icbc-successLigth;
+	}
+	.row--info{
+		background: $icbc-infoLigth;
+	}
+	.row--select{
+		background: $icbc-infoLigth;
+	}
+	.row--disabled{
+		opacity: .3;
+	}
+
+
+//********* Buttons *************//
+	.btn-table-action{
+		width: auto;
+	}
+	.circle-buttons-container{
+		margin-top: 5px;
+	}
+
+//********* Miscellaneous *******//
+	.row-addtem{
+		padding: 15px 21px!important;
+		border-radius:$border-radius-tm!important;
+		color: $icbc-font-darkBlueGrey; 
+		background: $icbc-background;
+		position: relative;
+		margin-bottom: 5px;
+	}
+	.row-edit-btns{
+		position: absolute;
+		top:8px;
+		right: 8px;
+
+	}
+	.column-Addressbook{
+		padding: 15px 24px;
+	}
+	.addressbook-capital{
+		font-size: $font-size-base;
+		color: $icbc-primary;
+		text-transform: capitalize;
+	}
+	.table-buttons{
+		width: auto;
+		margin: 0;
+		padding: 0;
+		float: right;
+		tr{
+			width: auto;
+			margin: 0;
+			padding: 0;
+			td{
+				width: auto;
+				margin: 0;
+				padding: 0;
+			}
+		}
+
+	}
+	.check-view{
+		font-size: $icbc-size-icons;
+	}
+	.doctype,
+	.currency{
+		color: $icbc-font-blueGrey; 
+	}
+	.docnumber,
+	.value{
+		float: right;
+		padding-right: 0;
+	}
+	
+//*********MOBILE******************************************************************************************************************//
+//*********************************************************************************************************************************//
+@media (max-width: 768px) {
+	.row-editable{
+		padding-right: 20px;
+	}
+	.row-columns{
+		border-radius:$border-radius-tm;
+		width: calc(100% - 15px);
+		padding-right: 15px;
+	}
+	.row-columns,
+	.column{
+		display: block;
+	}
+	.row-columns{
+		border-bottom: none;
+	}
+	
+	.row-thead{
+		display: none;
+	}
+	.row-columns {
+		position: relative; 
+		padding-top: 65px;
+		padding-bottom: 15px;
+		.column{
+
+			&:before { 
+				position: absolute;
+				top:0;
+				left: 20px;
+				width: 45%; 
+				font-family: 'Gustan-Bold';
+				color: $icbc-font-blueGrey; 
+				content: attr(data-th);
+			}
+			&:not(.column--checkbox):not(.column--actions){
+				position: relative;
+				text-align: left;
+				padding: 0 0 5px 48%;
+				min-height: 21px;
+			}
+			&--checkbox{
+				position: absolute;
+				top:15px;
+			}
+			&--actions{
+				position: absolute;
+				top:15px;
+				right: 10px;
+			}
+		}
+	}
+
+	.check-view{
+		font-size: $icbc-size-icons * .6;
+		position: relative;
+		left: -6px;
+	}
+	.doctype,
+	.currency{
+		color: $icbc-font-blueGrey; 
+	}
+	.docnumber,
+	.value{
+		float: none;
+		padding-right: 0;
+	}
+	/* .row-actions-mobile{
+		width: 100%;
+	} */
+
+	/* .column-mobile-checkbox{
+		width: 46px;
+		text-align: left;
+		padding-left: 10px;
+		position: relative
+	}
+	.column-mobile-action{
+		padding: 8px 0;
+		.btn-table-action{
+			min-height: 34px;
+		}
+	}
+	.column-mobile-contexmenu{
+		width: 46px;
+		text-align: right;
+		padding-right: 2px;
+	} */
+}//end media
+
+
